@@ -5,6 +5,6 @@
   例如：from cases.detail_page_verify import DetailPageCase<br> 
         testcases = [DrawerMenuCase,DetailPageCase]<br> 
 4.后续会将测试数据参数化至MYSQL或者excel；<br> 
-5.主要采用页面分离的形式设计编写自动化测试脚本；<br> 
+5.主要采用页面分离的形式设计,主要分为页面模块/公共方法模块/测试用了模块/测试报告等编写自动化测试脚本；<br> 
 6.此项目仅提供给测试人员学习使用；<br> 
 7.运行过程中如果有任何疑问添加QQ群：462635609<br> 
