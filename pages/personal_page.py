@@ -26,12 +26,6 @@ class PersonalPage(Login.Login):
         """消息设置"""
         self.by_xpath_name('//*[@id="personalData"]/div[2]/a').click()
 
-    def login(self, username, password):
-        """登录系统"""
-        self.user_text_field.send_keys(username)
-        self.password_text_field.send_keys(password)
-        self.login_btn.click()
-
 
 if __name__ == "__main__":
     Set_Resolution = SetResolution.SetResolution()

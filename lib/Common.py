@@ -6,6 +6,7 @@
 # @Software: PyCharm
 import os
 import time
+from lib import Login
 from pages.drawer_menu_page import DrawerMenuPage
 
 
@@ -25,7 +26,10 @@ def get_current_date():
 def is_login_status_fail(driver, username, password):
     """判断设置页面是否是登录状态"""
     if DrawerMenuPage(driver).is_element_exist == "未登录":
-        DrawerMenuPage(driver).login(username, password)
+        DrawerMenuPage(driver).login_element.click()
+        time.sleep(1)
+        Login.Login(driver).login(username, password)
+        time.sleep(1)
 
 
 def get_pic_path():

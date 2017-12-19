@@ -30,3 +30,9 @@ class Login(BasePage):
     def login_btn(self):
         """登陆按钮"""
         return self.by_xpath_name('//*[@id="eee"]/div[2]/div[2]/form/div[3]/button')
+
+    def login(self, username, password):
+        """登录"""
+        self.user_text_field.send_keys(username)
+        self.password_text_field.send_keys(password)
+        self.login_btn.click()

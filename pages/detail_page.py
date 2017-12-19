@@ -70,12 +70,6 @@ class DetailPage(Login):
         """登陆按钮"""
         return self.by_xpath_name('/html/body/div[4]/div[2]/form/div[3]/button')
 
-    def login(self, username, password):
-        """详情页面登录"""
-        self.user_text_field.send_keys(username)  # username:xxxx
-        self.password_text_field.send_keys(password)  # password:2327
-        self.login_btn.click()
-
 
 if __name__ == "__main__":
     # pass

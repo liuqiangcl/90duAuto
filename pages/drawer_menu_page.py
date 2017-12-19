@@ -20,7 +20,7 @@ class DrawerMenuPage(Login):
     @property
     def login_element(self):
         """头像"""
-        return self.by_xpath_name('//*[@id="photo"]/img').click()
+        return self.by_xpath_name('//*[@id="photo"]/img')
 
     @property
     def is_element_exist(self):
@@ -83,16 +83,9 @@ class DrawerMenuPage(Login):
         """地产大数据"""
         self.by_xpath_name('//*[@id="drawerMenu"]/div/ul[2]/li[3]/a/p').click()
 
-    def login(self, username, password):
-        """登录"""
-        self.login_element
-        self.user_text_field.send_keys(username)  # username:xxxx
-        self.password_text_field.send_keys(password)  # password:2327
-        self.login_btn.click()
-
     def head_update(self, picture):
         """更新头像"""
-        self.login_element
+        self.login_element.click()
         time.sleep(1)
         self.by_id('filed').send_keys(picture)
         self.by_id('clipBtnd').click()
@@ -105,9 +98,9 @@ if __name__ == "__main__":
     options = Set_Resolution.set_current_resolution()
     driver = webdriver.Chrome(chrome_options=options)
     HomePage = DrawerMenuPage(driver)
-    time.sleep(3)
-    HomePage.login('xxxx', '2327')
-    time.sleep(3)
-    HomePage.head_update()
-    time.sleep(3)
+    time.sleep(1)
+    Common.is_login_status_fail(driver, 'xxxx', '2327')
+    time.sleep(1)
+    HomePage.head_update('D:\\20171218160332.png')
+    time.sleep(1)
     driver.quit()
