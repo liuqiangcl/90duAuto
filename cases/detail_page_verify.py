@@ -6,9 +6,10 @@
 # @Software: PyCharm
 import time
 import unittest
-from lib import Common, SetResolution, Login
 from pages import detail_page
 from selenium import webdriver
+from readData.read_config import ReadUser
+from lib import Common, SetResolution
 
 
 class DetailPageCase(unittest.TestCase):
@@ -43,7 +44,7 @@ class DetailPageCase(unittest.TestCase):
         detailpage.like
         time.sleep(1)
         detailpage.screenshot(Common.get_pic_path())
-        self.assertEquals(Login.Login(self.driver).login_title_text, "欢迎来到90度地产")  # 判断是否弹出登录对话框
+        self.assertEquals(detailpage.login_title_text, "欢迎来到90度地产")  # 判断是否弹出登录对话框
 
     def test_login_succeed_like(self):
         """登录下点赞"""
@@ -51,17 +52,17 @@ class DetailPageCase(unittest.TestCase):
         detailpage = detail_page.DetailPage(self.driver)
         time.sleep(1)
         start = int(detailpage.like_num)
-        print(start)
         time.sleep(1)
         detailpage.like
+        time.sleep(2)
         if detailpage.login_title_text == '欢迎来到90度地产':
-            detailpage.login('xxxx', '2327')
+            detailpage.login(ReadUser().get_username, ReadUser().get_password)
+            time.sleep(3)
             detailpage.like
-        time.sleep(1)
+        time.sleep(2)
         detailpage.screenshot(Common.get_pic_path())
         end = int(detailpage.like_num)
-        print(end)
-        # self.assertGreater(end, start)
+        self.assertGreater(end, start)
 
     def test_login_failed_collect(self):
         """未登录下收藏"""
@@ -71,7 +72,7 @@ class DetailPageCase(unittest.TestCase):
         detailpage.collect
         time.sleep(1)
         detailpage.screenshot(Common.get_pic_path())
-        self.assertEquals(Login.Login(self.driver).login_title_text, "欢迎来到90度地产")  # 判断是否弹出登录对话框
+        self.assertEquals(detailpage.login_title_text, "欢迎来到90度地产")  # 判断是否弹出登录对话框
 
     def test_login_succeed_collect(self):
         """登录下收藏"""
@@ -79,8 +80,10 @@ class DetailPageCase(unittest.TestCase):
         detailpage = detail_page.DetailPage(self.driver)
         time.sleep(2)
         detailpage.collect
+        time.sleep(2)
         if detailpage.login_title_text == '欢迎来到90度地产':
-            detailpage.login('xxxx', '2327')
+            detailpage.login(ReadUser().get_username, ReadUser().get_password)
+            time.sleep(2)
             detailpage.collect
         time.sleep(2)
         detailpage.screenshot(Common.get_pic_path())
@@ -91,12 +94,12 @@ class DetailPageCase(unittest.TestCase):
         detailpage = detail_page.DetailPage(self.driver)
         time.sleep(2)
         detailpage.set_font
-        time.sleep(1)
+        time.sleep(2)
         detailpage.set_font_small
-        time.sleep(1)
+        time.sleep(2)
         detailpage.screenshot(Common.get_pic_path())
 
-    def test_set_font_small(self):
+    def test_set_font_big(self):
         """大字体"""
         print("========【case_0024】 设置大字体测试=============")
         detailpage = detail_page.DetailPage(self.driver)
@@ -107,7 +110,7 @@ class DetailPageCase(unittest.TestCase):
         time.sleep(1)
         detailpage.screenshot(Common.get_pic_path())
 
-    def test_set_font_small(self):
+    def test_set_night_mode(self):
         """夜间模式"""
         print("========【case_0025】 设置夜间模式测试=============")
         detailpage = detail_page.DetailPage(self.driver)
@@ -122,8 +125,10 @@ class DetailPageCase(unittest.TestCase):
         """取消字体设置"""
         print("========【case_0026】 取消字体测试=============")
         detailpage = detail_page.DetailPage(self.driver)
-        time.sleep(2)
+        time.sleep(1)
         detailpage.set_font
+        time.sleep(1)
+        detailpage.set_font_small
         time.sleep(1)
         detailpage.cancel_set_font
         time.sleep(1)

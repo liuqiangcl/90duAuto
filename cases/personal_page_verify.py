@@ -7,6 +7,7 @@
 import time
 import unittest
 from lib import Common, SetResolution
+from readData.read_config import ReadUser
 from pages.personal_page import PersonalPage
 from selenium import webdriver
 
@@ -30,7 +31,7 @@ class PersonalPageCase(unittest.TestCase):
         print("========【case_0028】 消息设置测试=============")
         personalpage = PersonalPage(self.driver)
         time.sleep(1)
-        personalpage.login('xxxx', '2327')
+        personalpage.login(ReadUser().get_username, ReadUser().get_password)
         time.sleep(1)
         personalpage.set_message
         personalpage.screenshot(Common.get_pic_path())

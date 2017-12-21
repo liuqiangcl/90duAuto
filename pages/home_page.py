@@ -7,8 +7,9 @@
 import time
 from lib import SetResolution
 from selenium import webdriver
-from selenium.webdriver.common.touch_actions import TouchActions
-from .base_page import BasePage
+from lib.Slide import Slide
+from pages.base_page import BasePage
+from readData.read_element import ReadElement
 
 
 class HomePage(BasePage):
@@ -20,49 +21,52 @@ class HomePage(BasePage):
     @property
     def detail_link(self):
         """跳转文章详情"""
-        return self.by_xpath_name('//*[@id="pullrefresh"]/div[2]/ul/li[1]/a/div/span').click()
+        detailElement = ReadElement().read_element("HomePage", 'detail')
+        return self.by_xpath_name(detailElement).click()
 
     @property
     def drawer_menu_link(self):
         """跳转设置界面"""
-        return self.by_id('drawerMenu').click()
+        drawerElement = ReadElement().read_element("HomePage", 'drawer')
+        return self.by_xpath_name(drawerElement).click()
 
     @property
     def down_refresh_data(self):
         """下拉刷新"""
-        Action = TouchActions(self.driver)
-        clickHoldElement = self.by_xpath_name('//*[@id="191936765"]/div[1]/span')
-        Action.scroll_from_element(clickHoldElement, 0, -200).perform()  # 下拉刷新是负数
+        pullrefreshElement = ReadElement().read_element("HomePage", 'pullrefresh')
+        clickHoldElement = self.by_xpath_name(pullrefreshElement)
+        Slide(self.driver).slide(clickHoldElement, 0, -200)  # 下拉刷新是负数
         time.sleep(3)
 
     @property
     def async_loading(self):
         """上拉分页"""
         time.sleep(3)
-        Action = TouchActions(self.driver)
-        clickHoldElement = self.by_xpath_name('//*[@id="191936765"]/div[1]/span')
-        Action.scroll_from_element(clickHoldElement, 0, 2500).perform()
+        loadElement = ReadElement().read_element("HomePage", 'load')
+        clickHoldElement = self.by_xpath_name(loadElement)
+        Slide(self.driver).slide(clickHoldElement, 0, 2500)  # 上拉加载
         time.sleep(3)
 
     @property
     def qr_code_link(self):
         """打开二维码弹窗"""
-        return self.by_xpath_name('//*[@id="scanCode"]').click()
+        qrCodeOpenElement = ReadElement().read_element("HomePage", 'qr_code_open')
+        return self.by_xpath_name(qrCodeOpenElement).click()
 
     @property
     def close_qr_code(self):
         """关闭二维码弹窗"""
+        qrCodeCloseElement = ReadElement().read_element("HomePage", 'qr_code_close')
         self.driver.switch_to_alert()
-        return self.by_xpath_name('//*[@id="eee"]/div[5]/div[2]/span/a/span').click()
+        return self.by_xpath_name(qrCodeCloseElement).click()
 
 
 if __name__ == "__main__":
-    pass
-    # Set_Resolution = SetResolution.SetResolution()
-    # options = Set_Resolution.set_current_resolution()
-    # driver = webdriver.Chrome(chrome_options=options)
-    # HomePage = HomePage(driver)
-    # time.sleep(3)
-    # HomePage.down_refresh_data
-    # time.sleep(3)
-    # driver.quit()
+    Set_Resolution = SetResolution.SetResolution()
+    options = Set_Resolution.set_current_resolution()
+    driver = webdriver.Chrome(chrome_options=options)
+    HomePage = HomePage(driver)
+    time.sleep(3)
+    HomePage.detail_link
+    time.sleep(3)
+    driver.quit()

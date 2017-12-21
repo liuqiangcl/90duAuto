@@ -8,7 +8,8 @@
 import time
 from lib.Login import Login
 from selenium import webdriver
-from lib import SetResolution, Common
+from lib import SetResolution
+from readData.read_element import ReadElement
 
 
 class DrawerMenuPage(Login):
@@ -20,75 +21,84 @@ class DrawerMenuPage(Login):
     @property
     def login_element(self):
         """头像"""
-        return self.by_xpath_name('//*[@id="photo"]/img')
+        headElement = ReadElement().read_element("DrawerMenuPage", 'head')
+        return self.by_xpath_name(headElement)
 
     @property
     def is_element_exist(self):
         """登陆状态判断"""
-        return self.by_xpath_name('//*[@id="drawerMenu"]/div/header/div[2]/h3').text
+        loginStatusElement = ReadElement().read_element("DrawerMenuPage", 'loginStatus')
+        return self.by_xpath_name(loginStatusElement).text
 
     @property
     def login_title(self):
         """登陆标题"""
-        return self.by_xpath_name('//*[@id="eee"]/div[2]/div[1]/h3').text
-
-    @property
-    def night_mode_text(self):
-        """白天/夜间模式"""
-        return self.by_xpath_name('//*[@id="night"]/p').text
+        loginTitleElement = ReadElement().read_element("DrawerMenuPage", 'loginTitle')
+        return self.by_xpath_name(loginTitleElement).text
 
     @property
     def recent_read(self):
         """最近阅读"""
-        self.by_xpath_name('//*[@id="read"]/p').click()
+        recentReadElement = ReadElement().read_element("DrawerMenuPage", 'recentRead')
+        self.by_xpath_name(recentReadElement).click()
 
     @property
     def my_collect(self):
         """我的收藏"""
-        self.by_xpath_name('//*[@id="collection"]/p').click()
+        myCollectElement = ReadElement().read_element("DrawerMenuPage", 'myCollect')
+        self.by_xpath_name(myCollectElement).click()
 
     @property
     def night_mode(self):
         """夜间模式"""
-        self.by_xpath_name('//*[@id="night"]/p').click()
+        nightModeElement = ReadElement().read_element("DrawerMenuPage", 'nightMode')
+        return self.by_xpath_name(nightModeElement)
 
     @property
     def share(self):
         """分享"""
-        self.by_xpath_name('//*[@id="share"]/div/span').click()
+        openShareElement = ReadElement().read_element("DrawerMenuPage", 'openShare')
+        self.by_xpath_name(openShareElement).click()
 
     @property
     def close_share(self):
         """关闭分享"""
+        closeShareElement = ReadElement().read_element("DrawerMenuPage", 'closeShare')
         self.driver.switch_to_alert()
-        self.by_xpath_name('//*[@id="eee"]/div[7]/div[2]/span/a/span').click()
+        self.by_xpath_name(closeShareElement).click()
 
     @property
     def edit_personal_data(self):
         """编辑个人资料"""
-        self.by_xpath_name('//*[@id="edit"]/span').click()
+        editPersonalDataElement = ReadElement().read_element("DrawerMenuPage", 'editPersonalData')
+        self.by_xpath_name(editPersonalDataElement).click()
 
     @property
     def news_link(self):
         """咨询"""
-        self.by_xpath_name('//*[@id="drawerMenu"]/div/ul[2]/li[1]/a/p').click()
+        newsLinkElement = ReadElement().read_element("DrawerMenuPage", 'newsLink')
+        self.by_xpath_name(newsLinkElement).click()
 
     @property
     def original_link(self):
         """独家原创"""
-        self.by_xpath_name('//*[@id="drawerMenu"]/div/ul[2]/li[2]/a/p').click()
+        originalLinkElement = ReadElement().read_element("DrawerMenuPage", 'originalLink')
+        self.by_xpath_name(originalLinkElement).click()
 
     @property
     def big_data_link(self):
         """地产大数据"""
-        self.by_xpath_name('//*[@id="drawerMenu"]/div/ul[2]/li[3]/a/p').click()
+        bigDataLinkElement = ReadElement().read_element("DrawerMenuPage", 'bigDataLink')
+        self.by_xpath_name(bigDataLinkElement).click()
 
     def head_update(self, picture):
         """更新头像"""
         self.login_element.click()
         time.sleep(1)
-        self.by_id('filed').send_keys(picture)
-        self.by_id('clipBtnd').click()
+        photoChoiceElement = ReadElement().read_element("DrawerMenuPage", 'photoChoice')
+        clipBtndElement = ReadElement().read_element("DrawerMenuPage", 'clipBtnd')
+        self.by_xpath_name(photoChoiceElement).send_keys(picture)
+        self.by_xpath_name(clipBtndElement).click()
         time.sleep(1)
 
 
@@ -98,9 +108,7 @@ if __name__ == "__main__":
     options = Set_Resolution.set_current_resolution()
     driver = webdriver.Chrome(chrome_options=options)
     HomePage = DrawerMenuPage(driver)
-    time.sleep(1)
-    Common.is_login_status_fail(driver, 'xxxx', '2327')
-    time.sleep(1)
-    HomePage.head_update('D:\\20171218160332.png')
-    time.sleep(1)
+    time.sleep(3)
+    print(HomePage.night_mode.text)
+    time.sleep(3)
     driver.quit()

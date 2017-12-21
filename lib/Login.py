@@ -5,6 +5,7 @@
 # @File    : Login.py
 # @Software: PyCharm
 from pages.base_page import BasePage
+from readData.read_element import ReadElement
 
 
 class Login(BasePage):
@@ -14,22 +15,26 @@ class Login(BasePage):
     @property
     def login_title_text(self):
         """详情登录提示"""
-        return self.by_xpath_name('/html/body/div[4]/div[1]/h3').text
+        loginTitleElement = ReadElement().read_element("LoginPage", 'loginTitleText')
+        return self.by_xpath_name(loginTitleElement).text
 
     @property
     def user_text_field(self):
         """手机号字段"""
-        return self.by_xpath_name('//*[@id="phone"]')
+        userTextElement = ReadElement().read_element("LoginPage", 'userText')
+        return self.by_xpath_name(userTextElement)
 
     @property
     def password_text_field(self):
         """验证码字段"""
-        return self.by_xpath_name('//*[@id="get_code"]')
+        passwordTextElement = ReadElement().read_element("LoginPage", 'passwordText')
+        return self.by_xpath_name(passwordTextElement)
 
     @property
     def login_btn(self):
         """登陆按钮"""
-        return self.by_xpath_name('//*[@id="eee"]/div[2]/div[2]/form/div[3]/button')
+        loginBtnElement = ReadElement().read_element("LoginPage", 'loginBtn')
+        return self.by_xpath_name(loginBtnElement)
 
     def login(self, username, password):
         """登录"""

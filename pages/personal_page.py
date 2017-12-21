@@ -5,9 +5,11 @@
 # @File    : personal_page.py
 # @Software: PyCharm
 import time
+from lib import Login
 from lib import SetResolution
 from selenium import webdriver
-from lib import Login
+from lib.ReadConfig import ReadConfig
+from readData.read_element import ReadElement
 
 
 class PersonalPage(Login.Login):
@@ -19,12 +21,14 @@ class PersonalPage(Login.Login):
     @property
     def login_btn(self):
         """登陆按钮"""
-        return self.by_xpath_name('//*[@id="eee"]/div[3]/div[2]/form/div[3]/button')
+        loginBtnElement = ReadElement().read_element("PersonalPage", 'loginBtn')
+        return self.by_xpath_name(loginBtnElement)
 
     @property
     def set_message(self):
         """消息设置"""
-        self.by_xpath_name('//*[@id="personalData"]/div[2]/a').click()
+        setMessageElement = ReadElement().read_element("PersonalPage", 'setMessage')
+        self.by_xpath_name(setMessageElement).click()
 
 
 if __name__ == "__main__":
@@ -33,7 +37,7 @@ if __name__ == "__main__":
     driver = webdriver.Chrome(chrome_options=options)
     personal_page = PersonalPage(driver)
     time.sleep(3)
-    personal_page.login('xxxx', '2327')
+    personal_page.login(ReadConfig().get_username, ReadConfig().get_password)
     time.sleep(3)
     personal_page.set_message
     time.sleep(3)
