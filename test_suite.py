@@ -18,6 +18,7 @@ testcases = [PersonalPageCase]
 
 
 def test_report():
+	"""测试报告"""
     testunit = unittest.TestSuite()  # 构建测试套间
     # 循环读取数组中的用例
     for case in testcases:
